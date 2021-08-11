@@ -1,0 +1,116 @@
+% !TEX program  = latexmk
+% !TEX producer = dvipdfmx -I 24
+% \documentclass[a4paper, 12pt]{jreport}
+\documentclass[a4paper, 12pt,dvipdfmx]{jsbook}
+
+%\usepackage{a4j}
+\usepackage{amsmath}
+\usepackage{makeidx}
+\usepackage{url}
+\usepackage{subfigure}
+\usepackage{here}
+%\usepackage{epsbox}
+%\usepackage{common}
+\usepackage{comment}
+\usepackage{graphicx}
+%\usepackage{graphics}
+\usepackage{color}
+\usepackage{lmodern}
+\def\vec#1{\mbox{\boldmath $#1$}}
+\renewcommand{\baselinestretch}{1.2}%行間の幅
+
+\newcommand{\figref}[1]{{\bf 図\hspace{2pt}\ref{#1}}}
+\newcommand{\Figref}[1]{{\bf 図\hspace{2pt}\ref{#1}}}
+\newcommand{\Figsref}[1]{{\bf 図\hspace{2pt}\ref{#1}}}
+\newcommand{\Figsrefs}[1]{{\bf \ref{#1}}}
+\newcommand{\alref}[1]{{\bf Algorithm\hspace{2pt}\ref{#1}}}
+\newcommand{\alreff}[1]{{\bf Alg.\hspace{2pt}\ref{#1}}}
+\newcommand{\tabref}[1]{{\bf 表\hspace{2pt}\ref{#1}}}
+\newcommand{\Tabref}[1]{{\bf 表\hspace{2pt}\ref{#1}}}
+\newcommand{\Tabsref}[1]{{\bf 表\hspace{2pt}\ref{#1}}}
+%\newcommand{\eqref}[1]{{\ 式\hspace{2pt}\ref{#1}}} % amsmathをインポートしたら不要
+\newcommand{\Eqref}[1]{{\ 式\hspace{2pt}(\ref{#1})}}
+\newcommand{\Algorithmref}[1]{{\bf Algorithm\hspace{2pt}\ref{#1}}}
+\newcommand{\secref}[1]{\ref{#1}\hspace{2pt}節}
+\newcommand{\subsecref}[1]{\ref{#1}\hspace{2pt}項}
+\newcommand{\chapref}[1]{第\hspace{2pt}\ref{#1}\hspace{2pt}章}
+%\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\red}[1]{\textcolor{black}{#1}}
+
+\makeindex
+
+\title{オフィスビルにおける空調設定スケジュールの\\
+	進化型多目的最適化}
+\author{太田 恵大\\ 　
+\\電気通信大学 大学院 情報理工学研究科 情報学専攻\\
+	博士（工学）学位申請論文}
+\date{2020年9月}
+\begin{document}
+\pagenumbering{roman}
+
+\maketitle
+\clearpage
+
+% 指導教員-----------
+\vspace*{30mm}
+\thispagestyle{empty}
+\begin{center}
+	\LARGE オフィスビルにおける空調設定スケジュールの\\進化型多目的最適化 \par
+	\vspace{50mm}
+\end{center}
+\begin{flushright}
+	\Large 論文審査委員会　　　　　　 \par
+	\vspace{5mm}
+	\Large 主査　佐藤　寛之　　准教授 \par
+	\Large 委員　高玉　圭樹　　教授　 \par
+	\Large 委員　大須賀　昭彦　教授　 \par
+	\Large 委員　庄野　逸　　　教授　 \par
+	\Large 委員　高橋　裕樹　　准教授 \par
+	\vspace{10mm}
+\end{flushright}
+\clearpage
+
+% コピーライト表記-----------
+\begin{center}
+	\vspace*{80mm}
+	\large \copyright 2020 Yoshihiro Ohta \par
+\end{center}
+\thispagestyle{empty}
+\clearpage
+
+% 英文Abstract-----------
+\setcounter{page}{1} % ページ番号の調整
+{\Huge Abstract}\\
+\\
+\hspace{1zw}For office building management, the concern with reductions in energy consumption by an optimal air-conditioning control has been growing recently. The energy consumption can be saved by controlling the setting temperature of the air-conditioning system. However, the energy reduction by controlling the setting temperature often causes environmental deterioration and sacrifice the thermal comfort of office workers in the office building. So far, the temperature setting has been conducted manually based on the building manager's experience or with mathematical programming techniques optimizing the temperature setting as a single-objective optimization problem. However, the mathematical programming modeling faces difficulty in representing the complex interactive effect that happens among various elements in the building. Also, since each of these single objective optimization methods provides only a single solution, a temperature setting, building managers have no choice for decision making for flexible management of their office building. This thesis proposes a design methodology of temperature setting optimization of air-conditioning systems in office buildings. The proposed methodology searches the temperature setting schedules optimizing both the energy consumption and office workers' thermal comfort with an evolutionary algorithm. Firstly, for an office room in the office building, this thesis presents a mathematical model to evaluate the energy consumption and the thermal comfort level of the temperature setting schedule, and an evolutionary multi-objective optimization system with it. Secondly, for an entire office building, the thesis presents a simulation-based optimization system that evaluates the energy consumption and the thermal comfort of the temperature setting schedule by using a building simulator. Experimental results show that the mathematical model-based and the simulation-based systems acquire multiple temperature setting schedules representing a trade-off between the energy consumption and the thermal comfort level. Also, the results show that the obtained schedules are better than the conventional constant temperature settings and ones obtained by a single-objective optimization. In the simulation-based optimization, we compare NSGA-II, NSGA-III, MOEA/D-DE, and OMOPSO as representative evolutionary multi-objective optimization algorithms and show that OMOPSO achieves the highest search performance.  Also, we show that the optimization contribution of each algorithmic components in OMOPSO. Since the outside temperature has an impact on the optimal temperature setting of the air-conditioning system, the proposed optimization systems use the forecast of the outside temperature. When the forecast involves errors, the acquired schedule may not be optimal. For this issue, thirdly, this thesis proposes a robust optimization system that simultaneously optimizes the thermal comfort level, the power consumption, and their differences when the air-temperature forecast involves errors. Experimental results show that the robust optimization system can acquire air-conditioning schedules robust for the uncertainty on the forecast of the outside temperature. Although the simulation-based optimization brings a scaling up of the target air-conditioning system and can treat the entire office building, the building simulation for every single temperature setting is computationally expensive. In order to tackle this issue and shorten the total optimization time, fourthly, this thesis proposes a surrogate optimization system that alternatively uses a computationally cheap surrogate evaluator based on a recurrent neural network with the time-series predictive long short-term memory instead of the computationally heavy building simulator. The experimental results show that the proposed surrogate optimization system is able to obtain practical schedule sets and accelerate the optimization process. Also, we propose an extended OMOPSO named DOMOPSO, which determines the variation direction of the solution in the variable space depending on its position in the objective space. Experimental results show that DOMOPSO achieves higher search performance than OMOPSO. The achievements of this thesis provide each office building manager the optimized temperature setting schedules optimized for both the energy consumption and the thermal comfort level. Also, it can be expected effects on the reduction of energy consumption, environmental protection, and the health-promotion in society.
+
+
+\clearpage
+% 日本語Abstract-----------
+{\Huge \gt{概要}}\\
+\\
+\hspace{1zw}
+オフィスビルにおける消費エネルギーの削減が求められている．総消費エネルギーのおよそ三割が空調設備によるものであるため，その運用の改善に期待が集まっている．消費エネルギーを左右するのは，空調の温度設定である．しかし，温度設定による消費エネルギーの削減は，室内環境の悪化とオフィスワーカーの快適性の低下を伴う．そのため，オフィスの快適性を維持しながらエネルギー消費量を削減できる空調設備の運用方法が求められる．通常，ビルの空調設定は，過去の実績値と気象予報などの情報から，ビル管理者によって経験的に決定される．これに対して，空調設定スケジュールを最適化手法によって決定する手法が研究されている．従来法では，室内快適性や消費エネルギーの数理モデルを用いた単一目的最適化による温度設定が利用されてきた．しかし，数理モデルでは，オフィスビルにおける様々な要素の複雑な相互作用を表現することが難しい．また，単一目的の最適化では，室内快適性や消費エネルギーといった複数の関心事を適切に重み付けして単一の評価値にすることに難しさがある．本論文では，オフィスの空調の設定温度スケジュールを多目的に最適化する方法論を提案し，その効果を検証することを目的とする．提案手法では，消費エネルギーと室内快適性の両方を最適化する設定温度スケジュールを進化計算によって探索する．まず，(1)オフィスビルの一室に対して，空調設定温度スケジュールの室内快適性と消費エネルギーを評価する数理モデルを構築して多目的最適化する数理モデル最適化法を提案する．実験の結果，提案法が室内快適性と消費エネルギーのトレードオフを考慮した多様な設定温度スケジュールを獲得できることを示す．数理モデル化の手続きをビル全体に適用する場合，異なる特性を持つ室・熱負荷・設備機器のモデルとその相互関係を考慮した室内快適性・消費エネルギーを評価するモデルをビルの各部屋に対して作成しなければならず，正確な数理モデル化が困難になる．そこで，(2)様々な要素が複雑に相互作用するビル全体に対して，ビルシミュレータを用いて設定温度スケジュールの室内快適性と消費エネルギーを評価するシミュレーション最適化法を提案する．実用的なスケジュール探索のため，最適化対象とするビルにZEB設計ガイドラインに示される一般的なオフィスビルを標的とし，建築分野で利用されるEnergyPlusによるシミュレーションを実行する．実験の結果，オフィスビル全体に対するシミュレーション最適化において，従来の一定温度を設定するスケジュールや単一目的最適化して得られた設定温度スケジュールより，提案法が室内快適性と消費エネルギーの両面で良好な設定温度スケジュールを獲得できることを示す．また，代表的な多目的進化計算法であるNSGA-II，NSGA-III，MOEA/D-DE，OMOPSOの4手法による探索性能の比較を行い，ビル空調設定スケジュールのシミュレーション最適化においてOMOPSOが最も良好な設定温度スケジュール集合を獲得できることを示すとともに，OMOPSOにおけるアルゴリズムの各構成要素の最適化における貢献度を明らかにする．最適な設定温度スケジュールには，外気温が影響を及ぼす．本論文における方法論では，最適化の開始時点における外気温予報を入力する．外気温予報には，誤差が含まれる．外気温の予報値と実際の値に誤差があると，最適化によって得られた設定温度スケジュールが最適にならない恐れがある．これに対して，(3)外気温予報誤差を考慮した目的関数を追加することにより，外気温の変動に対して頑健な設定温度スケジュールを獲得するロバスト最適化法を提案する．実験の結果，時々刻々と変化する不確定な気象の変化に対して，消費エネルギーと室内快適性の変化量を抑制できる設定温度スケジュールを獲得できることを示す．また，シミュレーション最適化は，ビル全体などの大規模な建造物が対象であっても，数理モデルを構築する必要がなく，ブラックボックスとして最適化できる．しかし，一つひとつの設定温度スケジュールのシミュレーション評価に時間を要するため，最適化に時間がかかる．この問題を解決して最適化時間を短縮するため，(4)計算負荷が高いビルシミュレータの代わりに，時系列予測が可能な長短期記憶リカレントニューラルネットワークによる計算量の少ない代理評価器を用いるサロゲート最適化法を提案する．実験の結果，実用的な設定温度スケジュール集合を獲得する最適化プロセスを高速化できることを示す．また，OMOPSOの拡張として，解の目的関数空間における位置に基づいて解の変異方向を決定するDOMOPSOを提案し，OMOPSOより最適化性能が改善されることを示す．本研究の成果は，個々のオフィスビルの管理者に対して，室内快適性と消費エネルギーのバランスを考慮した空調の設定温度スケジュールを提供可能にすることにとどまらず，社会における省エネルギー化，環境保護，健康促進に与える影響も期待される．
+\clearpage
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\clearpage
+
+\pagenumbering{arabic}
+\setcounter{page}{1} % ページ番号の調整
+\include{chapter1}
+\include{chapter2}
+\include{chapter3}
+\include{chapter4}
+\include{chapter5}
+\include{chapter6}
+\include{chapter7}
+\include{thanks}
+\include{reference}
+\include{release}
+
+%\printindex
+\end{document}
